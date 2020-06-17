@@ -73,7 +73,7 @@ class Agent():
             experiences = self.memory.sample()
             self.learn(experiences, GAMMA)
 
-    def act(self, state, eps, add_noise=True):
+    def act(self, state, add_noise=True):
         """Returns actions for given state as per current policy."""
         state = torch.from_numpy(state).float().to(device)
         self.actor_local.eval()
@@ -81,7 +81,7 @@ class Agent():
             action = self.actor_local(state).cpu().data.numpy()
         self.actor_local.train()
         if add_noise:
-            action += eps * self.noise.sample()
+            action += self.noise.sample()
         return np.clip(action, -1, 1)
 
     def reset(self):
@@ -114,6 +114,7 @@ class Agent():
         # Minimize the loss
         self.critic_optimizer.zero_grad()
         critic_loss.backward()
+        torch.nn.utils.clip_grad_norm_(self.critic_local.parameters(), 1.0)
         self.critic_optimizer.step()
 
         # -------------------------- update actor -------------------------- #

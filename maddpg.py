@@ -19,60 +19,62 @@ def plot_figure(scores):
     plt.show()
 
 
-def maddpg(agent, env, brain_name, n_episodes=500, max_t=1000, train=True,
-           print_every=100, eps_start=1.0, eps_end=0.01, eps_decay=0.98):
+def maddpg(agent, env, brain_name, n_episodes=1000, max_t=1000, train=True,
+           print_every=100, n_agents=2):
     """DDPG
 
     Params
     ======
     n_episodes (int): maximum number of training episodes
     max_t (int): maximum number of timesteps per episode
-    eps_start (float): starting value of epsilon,
-                       for epsilon-greedy action selection
-    eps_end (float): minimum value of epsilon
-    eps_decay (float): multiplicative factor (per episode)
-                       for decreasing epsilon
     brain_name (str): brain from where to fetch env details
     agent (obj): instance of a maddpg agent
     """
-    scores = []
-    scores_window = deque(maxlen=print_every)
+    max_scores = []
+    max_score_window = deque(maxlen=print_every)
+    best_score = -np.Inf
+
     pbar = tqdm(total=n_episodes)
-    eps = eps_start if train else 0.0
     for i_episode in range(1, n_episodes+1):
         env_info = env.reset(train_mode=train)[brain_name]
-        state = env_info.vector_observations[0]
-        score = 0
+        states = env_info.vector_observations
+        scores = np.zeros(n_agents)
         agent.reset()
         for t in range(max_t):
-            action = agent.act(state, eps, add_noise=train)
-            env_info = env.step(action)[brain_name]
-            next_state = env_info.vector_observations[0]
-            reward = env_info.rewards[0]
-            done = env_info.local_done[0]
+            actions = np.array([np.squeeze(agent.act(states[s]))
+                                for s in range(n_agents)])
+            env_info = env.step(actions)[brain_name]
+            next_states = env_info.vector_observations
+            rewards = env_info.rewards
+            dones = env_info.local_done
             if train:
-                agent.step(state, action, reward, next_state, done)
-            score += reward
-            state = next_state
-            if done:
+                for i in range(n_agents):
+                    agent.step(states[i], actions[i], rewards[i],
+                               next_states[i], dones[i])
+            scores += rewards
+            states = next_states
+            if np.any(dones):
                 break
 
-        scores_window.append(score)
-        scores.append(score)
+        max_score = np.max(scores)
+        max_score_window.append(max_score)
+        max_scores.append(max_score)
 
-        eps = max(eps_end, eps_decay*eps)
+        if max_score > best_score:
+            best_score = max_score
 
         if not train:
             pbar.write('Episode {}\tAverage Score: {:.2f}'.format(
-                i_episode, np.mean(scores_window)))
+                i_episode, np.mean(max_score_window)))
 
         if i_episode % print_every == 0:
             pbar.write('Episode {}\tAverage Score: {:.2f}\tMax: {:.1f}'.format(
-                i_episode, np.mean(scores_window), np.max(scores_window)))
+                i_episode, np.mean(max_score_window),
+                np.max(max_score_window)))
 
-        if train and np.mean(scores_window) > 30:
+        if train and np.mean(max_score_window) > 0.50:
             print('\nEnv solved in {:d} episodes!\tAverage Score: {:.2f}'
-                  .format(i_episode-100, np.mean(scores_window)))
+                  .format(i_episode-100, np.mean(max_score_window)))
             torch.save(agent.actor_local.state_dict(),
                        'checkpoint_actor.pth')
             torch.save(agent.critic_local.state_dict(),
