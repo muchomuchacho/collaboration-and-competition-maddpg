@@ -1,5 +1,5 @@
 
-
+![Plot of rewards](images/Collab&Control_Fig2.png)
 
 
 ## Detail of code run with STDOUT info
