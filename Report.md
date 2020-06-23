@@ -1,3 +1,9 @@
+
+
+
+
+## Detail of code run with STDOUT info
+```
 » python maddpg.py
 Found path: /home/mucho/code/DRL-Udacity-NanoDeg/collaboration-competition/./Tennis_Linux/Tennis.x86_64
 Mono path[0] = '/home/mucho/code/DRL-Udacity-NanoDeg/collaboration-competition/./Tennis_Linux/Tennis_Data/Managed'
@@ -69,4 +75,4 @@ Episode 2897	Average Score: 0.75
 Episode 2898	Average Score: 0.80
 Episode 3000	Movg Average: 0.841	Max: 5.3
 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 3000/3000 [38:50<00:00,  1.29it/s]
-
+```
