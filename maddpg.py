@@ -34,7 +34,7 @@ def save_chkps(agents):
 
 def maddpg(agents, env, brain_name, num_agents, state_size,
            n_episodes=3000, train=True, print_every=100, eps_start=1.0,
-           eps_end=0.001, eps_decay=0.95):
+           eps_end=0.001, eps_decay=0.99):
     """DDPG
 
     Params
@@ -157,7 +157,7 @@ def runner(chkp=None):
               for i in range(num_agents)]
 
     if chkp:
-        '''checkpoint_actor_0.pth'''
+        '''e.g.: `python maddpg.py --chkp actor`'''
         for idx, agent in enumerate(agents):
             cp_actor = torch.load(f'checkpoint_{chkp}_{str(idx)}.pth')
             agent.actor_local.load_state_dict(cp_actor)
