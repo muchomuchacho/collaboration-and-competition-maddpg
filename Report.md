@@ -5,12 +5,15 @@ I started this project using the code base I wrote for the Continuous Control pr
 As we did in the `Continuious Control project`, we implement the `Ornstein-Uhlenbeck` noise class to avoid uding random uniform sampling and potentially get the agent stuck continuosly.
 
 ### Hyperparameters
+Please see below a detail table with all the hyperparameter values.
+The values below have been set based on many experiments with various results; many of those valeus have had to be modified multiple time in order to achieve the best compromise between performance and stability. In some particular sections of the code, like for instance the `Ornstein-Uhlenbeck` class, only the `sigma` hyperparameter has had to be tuned, leaving the other two untouched during the experiments performed. Another one I trusted to be corect was the `Replay Buffer size`, it tends to be a really common value and the compromise between enough random samples and convergence speed has been justified here as well. The rest have all been tuned several times and I reached the conclusion that the velues int he table below provide consistent results. One particular aspect that proved difficult in this project was the difficulty to find a good value combination to promote exploration without hidering exploitation to the point of catastrophic collapse duting training or failure to converge at all. The `Ornstein-Uhlenbeck sigma` value tuned by epsilon has been fundamental in being able to find the correct combination. Seting `epsilon` too small or `epsilon` too large would result in never converging. Another important factor was the `Neural Netowrk` architecture; it turns out that an `Actor` network with hidden layer larger than the ones chosen would not be of any benefit while the `Critic` network would require the number of neurons per layer set below as a minimum. The number of episodes required to converge are typically large in my implementation, usually above 1500 episodes, but using the hyperparameters shown below that seems to be of minor importance because training runs quite fast. I was able to train the agent to convergence in less than 20 minutes using a laptop.
+
 | Hyperparameter | Value |
 |---|---:|
 | Replay buffer size | 1e6 |
 | Batch size | 256 |
-| Actor hidden units | 256, 128 |
-| Critic hidden units | 256, 128 |
+| Actor hidden units | 100, 100 |
+| Critic hidden units | 260, 140 |
 | Actor learning rate | 3e-4 |
 | Critic learning rate | 6e-4 |
 | Tau | 1e-3 |
@@ -18,11 +21,10 @@ As we did in the `Continuious Control project`, we implement the `Ornstein-Uhlen
 | Ornstein-Uhlenbeck, mu | 0 |
 | Ornstein-Uhlenbeck, theta | 0.15 |
 | Ornstein-Uhlenbeck, sigma | 0.1 |
-| Num episodes | 500 |
-| Max steps | 1000 |
+| Num episodes | 3000 |
 | Epsilion start | 1.0 |
-| Epsilon end | 0.01 |
-| Epsilon decay | 0.98 |
+| Epsilon end | 0.001 |
+| Epsilon decay | 0.999 |
 
 # Plot of Rewards
 ![Plot of rewards](images/Collab&Control_Fig2.png)
