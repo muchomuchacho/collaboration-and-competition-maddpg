@@ -94,3 +94,4 @@ Episode 1800	Movg Average: 0.718	Max: 5.2
 
 # Ideas for Future Work
 * I have some work already on a Prioritised Experience replay implementation but I have run out of time as I was tuning hyperparamenters in this project. But I intend to finish it and see how much prioritised experience vectors improve the overall performance.
+* Another idea I had in mind was to do some work on PPO algorithms and try finding another path to solve these type of environments.
