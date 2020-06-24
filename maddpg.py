@@ -34,7 +34,7 @@ def save_chkps(agents):
 
 def maddpg(agents, env, brain_name, num_agents, state_size,
            n_episodes=3000, train=True, print_every=100, eps_start=1.0,
-           eps_end=0.001, eps_decay=0.99):
+           eps_end=0.001, eps_decay=0.999):
     """DDPG
 
     Params
