@@ -1,5 +1,5 @@
 # Solving the Tennis environment with Multi-Agent Deep Deterministic Policy Gradient
-### MADDPG
+### DDPG
 ![Plot of rewards](images/multi-agent-actor-critic.png)
 > Image from the Lowe and Wu paper
 The base for this project is the [DDPG algorith](https://arxiv.org/pdf/1509.02971.pdf) which is presented by their authors as "a model-free, off-policy actor-critic algorithm using deep function approximators that can learn policies in high-dimensional, continuous action spaces". The research from that paper has been the foundation for the last couple of projects and the prefect ground for implementing the multi-agent algorithm as exposed in [Multi-Agent Actor-Critic for Mixed Cooperative-Competitive Environments](https://papers.nips.cc/paper/7217-multi-agent-actor-critic-for-mixed-cooperative-competitive-environments.pdf). Both those papers make a perfect path to settle the knowledge adquired in the last couple of months. Please see below for more details.
