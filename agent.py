@@ -15,8 +15,6 @@ TAU = 1e-3              # for soft update of target parameters
 LR_ACTOR = 3e-4         # learning rate of the actor
 LR_CRITIC = 6e-4        # learning rate of the critic
 WEIGHT_DECAY = 0        # L2 weight decay
-LEARN_INTER = 1
-LEARN_PASSES = 1
 
 
 class Agent():
@@ -74,10 +72,9 @@ class Agent():
         self.memory.add(state, action, reward, next_state, done)
 
         # Learn, if enough samples are available in memory
-        if len(self.memory) > BATCH_SIZE and self.timestep % LEARN_INTER == 0:
-            for _ in range(LEARN_PASSES):
-                experiences = self.memory.sample()
-                self.learn(experiences, GAMMA, agent_num)
+        if len(self.memory) > BATCH_SIZE:
+            experiences = self.memory.sample()
+            self.learn(experiences, GAMMA, agent_num)
 
     def act(self, states, eps, add_noise=True):
         """Returns actions for given state as per current policy."""
