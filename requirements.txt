@@ -98,7 +98,7 @@ tornado==6.0.4
 tqdm==4.46.0
 traitlets==4.3.3
 unityagents @ file:///home/rafa/git/deep-reinforcement-learning/python
-urllib3==1.25.9
+urllib3==1.26.5
 wcwidth==0.1.9
 Werkzeug==1.0.1
 widgetsnbextension==3.5.1
