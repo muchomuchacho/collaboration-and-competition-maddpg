@@ -23,7 +23,7 @@ gast==0.3.3
 glfw==1.11.0
 grpcio==1.11.0
 gym==0.17.2
-html5lib==0.9999999
+html5lib==0.99999999
 idna==2.9
 imageio==2.8.0
 importlib-metadata==1.6.0
